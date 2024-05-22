@@ -43,7 +43,7 @@ router.post("/message", async (req, res) => {
     // @ts-ignore
     appId: process.env.PUSHER_APP_ID,
     // @ts-ignore
-    key: process.env.NEXT_PUBLIC_PUSHER_KEY,
+    key: process.env.PUSHER_KEY,
     // @ts-ignore
     secret: process.env.PUSHER_SECRET,
     cluster: "eu",
