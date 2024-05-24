@@ -3,7 +3,7 @@ const mongoose = require("mongoose");
 const roomSchema = new mongoose.Schema({
   type: {
     type: String,
-    enum: ["public", "private"],
+    enum: ["public", "privateTwo", "privateGroup"],
     default: "public",
     required: true,
   },

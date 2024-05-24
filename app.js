@@ -9,6 +9,7 @@ const session = require("express-session");
 const { v4: uuidv4 } = require("uuid");
 
 const roomsRouter = require("./src/routes/room.routes");
+const usersRouter = require("./src/routes/user.routes");
 
 const app = express();
 
@@ -23,6 +24,7 @@ app.use(middleware.errorHandler);
 app.use(middleware.requestLogger);
 
 app.use("/api/rooms", roomsRouter);
+app.use("/api/users", usersRouter);
 
 app.use(middleware.unknownEndpoint);
 module.exports = app;

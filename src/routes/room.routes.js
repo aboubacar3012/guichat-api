@@ -7,6 +7,31 @@ const mongoose = require("mongoose");
 const middleware = require("../utils/middleware");
 const Pusher = require("pusher");
 
+// Create room for two users
+router.post("/twochat", async (req, res) => {
+  const { usernameOne, usernameTwo } = req.body;
+  const roomName = `Discussion privée`;
+  const findRoom = await Room.findOne({
+    'roomMembers.username': { $all: [usernameOne, usernameTwo] },
+    type: "privateTwo"
+  });
+
+  if (findRoom) {
+    return res.status(200).json({room: findRoom, message: "exists"});
+  }
+
+  const room = new Room({
+    roomName: roomName,
+    type: "privateTwo",
+    roomMembers: [
+      { username: usernameOne.trim() },
+      { username: usernameTwo.trim() },
+    ],
+  });
+  await room.save(); 
+  res.json({room: room, message: "created"});
+});
+
 // Create room
 router.post("/", async (req, res) => {
   const { roomName, username } = req.body;
