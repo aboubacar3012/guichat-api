@@ -12,7 +12,7 @@ router.post("/login", async (req, res) => {
   const { username, icon } = req.body;
   const findUser = await User.findOne({ username: username.trim() });
   if (findUser) {
-    return res.status(200).json(findUser);
+    return res.status(200).json({success: true, user: findUser});
   }
   const user = new User({
     username: username.trim(),
@@ -20,7 +20,7 @@ router.post("/login", async (req, res) => {
   });
 
   await user.save();
-  res.json(user);
+  res.json({success: true, user});
 });
 
 // Get all users
