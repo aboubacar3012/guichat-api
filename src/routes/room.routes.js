@@ -17,7 +17,7 @@ router.post("/twochat", async (req, res) => {
   });
 
   if (findRoom) {
-    return res.status(200).json({room: findRoom, message: "exists"});
+    return res.status(200).json({ room: findRoom, message: "exists" });
   }
 
   const room = new Room({
@@ -28,8 +28,8 @@ router.post("/twochat", async (req, res) => {
       { username: usernameTwo.trim() },
     ],
   });
-  await room.save(); 
-  res.json({room: room, message: "created"});
+  await room.save();
+  res.json({ room: room, message: "created" });
 });
 
 // Create room
@@ -102,13 +102,19 @@ router.post("/message", async (req, res) => {
 
 // Get all rooms
 // @ts-ignore
-router.get("/", async (req, res) => {
-  const rooms = await Room.find({});
+router.get("/:username", async (req, res) => {
+  const { username } = req.params;
+  const rooms = await Room.find({ // je veut seulement les rooms ou le username est dans le tableau roomMembers ou bien type est public
+    $or: [
+      { "roomMembers.username": username },
+      { type: "public" },
+    ],
+  });
   res.json(rooms);
 });
 
 // Get room by id
-router.get("/:id", async (req, res) => {
+router.get("/room/:id", async (req, res) => {
   const room = await Room.findById(req.params.id);
   res.json(room);
 });
